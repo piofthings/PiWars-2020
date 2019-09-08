@@ -13,7 +13,7 @@ from adafruit_servokit import ServoKit
 
 sys.path.append(os.path.abspath(os.path.join(
     os.path.dirname(__file__), "..")) + "/models/")
-from steering_status import SteeringStatus
+from servo_status import ServoStatus
 from bt_steering_mode_data import BtSteeringModeData
 from bt_request import BtRequest
 
@@ -45,23 +45,23 @@ class Steering():
     Rear Left: 75
     """
 
-    steering_status = None
+    servo_status = None
 
     __kit = None
     __Do = 0
 
-    def __init__(self, servoKit, steeringStatusFile=None):
+    def __init__(self, servoKit, servoStatusFile=None):
         self.__kit = servoKit
-        if(steeringStatusFile != None):
-            self.steering_status = SteeringStatus(json_file=steeringStatusFile)
-            self.__frontLeftServo = self.__kit.servo[self.steering_status.front_left_port]
-            self.__rearLeftServo = self.__kit.servo[self.steering_status.rear_left_port]
-            self.__frontRightServo = self.__kit.servo[self.steering_status.front_right_port]
-            self.__rearRightServo = self.__kit.servo[self.steering_status.rear_right_port]
-            self.move_servo_to(self.FRONT_LEFT_POS, self.steering_status.front_left_start)
-            self.move_servo_to(self.FRONT_RIGHT_POS, self.steering_status.front_right_start)
-            self.move_servo_to(self.REAR_LEFT_POS, self.steering_status.rear_left_start)
-            self.move_servo_to(self.REAR_RIGHT_POS, self.steering_status.rear_right_start)
+        if(servoStatusFile != None):
+            self.servo_status = ServoStatus(json_file=servoStatusFile)
+            self.__frontLeftServo = self.__kit.servo[self.servo_status.front_left_port]
+            self.__rearLeftServo = self.__kit.servo[self.servo_status.rear_left_port]
+            self.__frontRightServo = self.__kit.servo[self.servo_status.front_right_port]
+            self.__rearRightServo = self.__kit.servo[self.servo_status.rear_right_port]
+            self.move_servo_to(self.FRONT_LEFT_POS, self.servo_status.front_left_start)
+            self.move_servo_to(self.FRONT_RIGHT_POS, self.servo_status.front_right_start)
+            self.move_servo_to(self.REAR_LEFT_POS, self.servo_status.rear_left_start)
+            self.move_servo_to(self.REAR_RIGHT_POS, self.servo_status.rear_right_start)
 
     def spotTurn(self):
         flVal = 45
@@ -122,104 +122,104 @@ class Steering():
 
     def increment_position(self, index, increment):
         if(index == 1):
-            if(self.steering_status.front_left_delta < self.steering_status.actuation_range):
-                self.steering_status.front_left_delta = self.steering_status.front_left_delta + increment
-                print("\r front_left_delta: " + str(self.steering_status.front_left_delta), end='\r', flush=True)
+            if(self.servo_status.front_left_delta < self.servo_status.actuation_range):
+                self.servo_status.front_left_delta = self.servo_status.front_left_delta + increment
+                print("\r front_left_delta: " + str(self.servo_status.front_left_delta), end='\r', flush=True)
         elif(index == 2):
-            if(self.steering_status.front_right_delta < self.steering_status.actuation_range):
-                self.steering_status.front_right_delta = self.steering_status.front_right_delta + increment
-                print("\r front_right_delta: " + str(self.steering_status.front_right_delta), end='\r', flush=True)
+            if(self.servo_status.front_right_delta < self.servo_status.actuation_range):
+                self.servo_status.front_right_delta = self.servo_status.front_right_delta + increment
+                print("\r front_right_delta: " + str(self.servo_status.front_right_delta), end='\r', flush=True)
         elif(index == 3):
-            if(self.steering_status.rear_left_delta < self.steering_status.actuation_range):
-                self.steering_status.rear_left_delta = self.steering_status.rear_left_delta + increment
-                print("\r rear_left_delta: " + str(self.steering_status.rear_left_delta), end='\r', flush=True)
+            if(self.servo_status.rear_left_delta < self.servo_status.actuation_range):
+                self.servo_status.rear_left_delta = self.servo_status.rear_left_delta + increment
+                print("\r rear_left_delta: " + str(self.servo_status.rear_left_delta), end='\r', flush=True)
         elif(index == 4):
-            if(self.steering_status.rear_right_delta < self.steering_status.actuation_range):
-                self.steering_status.rear_right_delta = self.steering_status.rear_right_delta + increment
-                print("\r rear_right_delta: " + str(self.steering_status.rear_right_delta), end='\r', flush=True)
+            if(self.servo_status.rear_right_delta < self.servo_status.actuation_range):
+                self.servo_status.rear_right_delta = self.servo_status.rear_right_delta + increment
+                print("\r rear_right_delta: " + str(self.servo_status.rear_right_delta), end='\r', flush=True)
 
     def decrement_position(self, index, decrement):
         if(index == 1):
-            if(self.steering_status.front_left_delta > 0):
-                self.steering_status.front_left_delta = self.steering_status.front_left_delta - decrement
-                print("\r front_left_delta: " + str(self.steering_status.front_left_delta), end='\r', flush=True)
+            if(self.servo_status.front_left_delta > 0):
+                self.servo_status.front_left_delta = self.servo_status.front_left_delta - decrement
+                print("\r front_left_delta: " + str(self.servo_status.front_left_delta), end='\r', flush=True)
         elif(index == 2):
-            if(self.steering_status.front_right_delta > 0):
-                self.steering_status.front_right_delta = self.steering_status.front_right_delta - decrement
-                print("\r front_right_delta: " + str(self.steering_status.front_right_delta), end='\r', flush=True)
+            if(self.servo_status.front_right_delta > 0):
+                self.servo_status.front_right_delta = self.servo_status.front_right_delta - decrement
+                print("\r front_right_delta: " + str(self.servo_status.front_right_delta), end='\r', flush=True)
         elif(index == 3):
-            if(self.steering_status.rear_left_delta > 0):
-                self.steering_status.rear_left_delta = self.steering_status.rear_left_delta - decrement
-            print("\r rear_left_delta: " + str(self.steering_status.rear_left_delta), end='\r', flush=True)
+            if(self.servo_status.rear_left_delta > 0):
+                self.servo_status.rear_left_delta = self.servo_status.rear_left_delta - decrement
+            print("\r rear_left_delta: " + str(self.servo_status.rear_left_delta), end='\r', flush=True)
         elif(index == 4):
-            if(self.steering_status.rear_right_delta > 0):
-                self.steering_status.rear_right_delta = self.steering_status.rear_right_delta - decrement
-                print("\r rear_right_delta: " + str(self.steering_status.rear_right_delta), end='\r', flush=True)
+            if(self.servo_status.rear_right_delta > 0):
+                self.servo_status.rear_right_delta = self.servo_status.rear_right_delta - decrement
+                print("\r rear_right_delta: " + str(self.servo_status.rear_right_delta), end='\r', flush=True)
 
     def set_steering_port(self, index, value):
         if(index == 1):
-            self.steering_status.front_left_port = value
+            self.servo_status.front_left_port = int(value)
         elif(index == 2):
-            self.steering_status.front_right_port = value
+            self.servo_status.front_right_port = int(value)
         elif(index == 3):
-            self.steering_status.rear_left_port = value
+            self.servo_status.rear_left_port = int(value)
         elif(index == 4):
-            self.steering_status.rear_right_port = value
+            self.servo_status.rear_right_port = int(value)
 
     def set_actuation_degrees(self, degrees):
         if degrees < 360 and degrees > 0:
-            self.steering_status.actuation_range = degrees
+            self.servo_status.actuation_range = degrees
         self.update_servos()
 
-    def save_steering_status(self):
-        self.steering_status.front_left_delta = self.__kit.servo[int(self.steering_status.front_left_port)].angle
-        self.steering_status.front_right_delta = self.__kit.servo[int(self.steering_status.front_right_port)].angle
-        self.steering_status.rear_left_delta = self.__kit.servo[int(self.steering_status.rear_left_port)].angle
-        self.steering_status.rear_right_delta = self.__kit.servo[int(self.steering_status.rear_right_port)].angle
-        self.steering_status.save()
+    def save_servo_status(self):
+        self.servo_status.front_left_delta = self.__kit.servo[int(self.servo_status.front_left_port)].angle
+        self.servo_status.front_right_delta = self.__kit.servo[int(self.servo_status.front_right_port)].angle
+        self.servo_status.rear_left_delta = self.__kit.servo[int(self.servo_status.rear_left_port)].angle
+        self.servo_status.rear_right_delta = self.__kit.servo[int(self.servo_status.rear_right_port)].angle
+        self.servo_status.save()
 
     def move_servo_to(self, index, value):
         if(index == 1):
-            self.__kit.servo[int(self.steering_status.front_left_port)].angle = value
+            self.__kit.servo[int(self.servo_status.front_left_port)].angle = value
         elif(index == 2):
-            self.__kit.servo[int(self.steering_status.front_right_port)].angle = value
+            self.__kit.servo[int(self.servo_status.front_right_port)].angle = value
         elif(index == 3):
-            self.__kit.servo[int(self.steering_status.rear_left_port)].angle = value
+            self.__kit.servo[int(self.servo_status.rear_left_port)].angle = value
         elif(index == 4):
-            self.__kit.servo[int(self.steering_status.rear_right_port)].angle = value
+            self.__kit.servo[int(self.servo_status.rear_right_port)].angle = value
 
     def move_servo_by(self, index, value):
         if(index == 1):
-            self.__kit.servo[int(self.steering_status.front_left_port)].angle = self.__kit.servo[int(self.steering_status.front_left_port)].angle + value
-            print("\r Front left servo angle: " + str(self.__kit.servo[int(self.steering_status.front_left_port)].angle), end='\r', flush=True)
+            self.__kit.servo[int(self.servo_status.front_left_port)].angle = self.__kit.servo[int(self.servo_status.front_left_port)].angle + value
+            print("\r Front left servo angle: " + str(self.__kit.servo[int(self.servo_status.front_left_port)].angle), end='\r', flush=True)
         elif(index == 2):
-            self.__kit.servo[int(self.steering_status.front_right_port)].angle = self.__kit.servo[int(self.steering_status.front_right_port)].angle + value
+            self.__kit.servo[int(self.servo_status.front_right_port)].angle = self.__kit.servo[int(self.servo_status.front_right_port)].angle + value
 
             print("\r Front right servo angle: " +
-                  str(self.__kit.servo[int(self.steering_status.front_right_port)].angle), end='\r', flush=True)
+                  str(self.__kit.servo[int(self.servo_status.front_right_port)].angle), end='\r', flush=True)
         elif(index == 3):
-            self.__kit.servo[int(self.steering_status.rear_left_port)
-                             ].angle = self.__kit.servo[int(self.steering_status.rear_left_port)].angle + value
+            self.__kit.servo[int(self.servo_status.rear_left_port)
+                             ].angle = self.__kit.servo[int(self.servo_status.rear_left_port)].angle + value
             print("\r Rear left servo angle: " +
-                  str(self.__kit.servo[int(self.steering_status.rear_left_port)].angle), end='\r', flush=True)
+                  str(self.__kit.servo[int(self.servo_status.rear_left_port)].angle), end='\r', flush=True)
         elif(index == 4):
-            self.__kit.servo[int(self.steering_status.rear_right_port)].angle = self.__kit.servo[int(self.steering_status.rear_right_port)].angle + value
-            print("\r Rear left right angle: " + str(self.__kit.servo[int(self.steering_status.rear_right_port)].angle), end='\r', flush=True)
+            self.__kit.servo[int(self.servo_status.rear_right_port)].angle = self.__kit.servo[int(self.servo_status.rear_right_port)].angle + value
+            print("\r Rear left right angle: " + str(self.__kit.servo[int(self.servo_status.rear_right_port)].angle), end='\r', flush=True)
 
     def print_servo_stats(self):
-        print("Front left:" + str(self.__kit.servo[int(self.steering_status.front_left_port)].angle))
-        print("Front right:" + str(self.__kit.servo[int(self.steering_status.front_right_port)].angle))
-        print("Rear left:" + str(self.__kit.servo[int(self.steering_status.rear_left_port)].angle))
-        print("Rear right:" + str(self.__kit.servo[int(self.steering_status.rear_right_port)].angle))
+        print("Front left:" + str(self.__kit.servo[int(self.servo_status.front_left_port)].angle))
+        print("Front right:" + str(self.__kit.servo[int(self.servo_status.front_right_port)].angle))
+        print("Rear left:" + str(self.__kit.servo[int(self.servo_status.rear_left_port)].angle))
+        print("Rear right:" + str(self.__kit.servo[int(self.servo_status.rear_right_port)].angle))
 
     def update_servos(self):
-        self.__kit.servo[int(self.steering_status.front_left_port)].angle = self.steering_status.front_left_delta
-        self.__kit.servo[int(self.steering_status.front_left_port)].actuation_range = self.steering_status.actuation_range
+        self.__kit.servo[int(self.servo_status.front_left_port)].angle = self.servo_status.front_left_delta
+        self.__kit.servo[int(self.servo_status.front_left_port)].actuation_range = self.servo_status.actuation_range
 
-        self.__kit.servo[int(self.steering_status.front_right_port)].angle = self.steering_status.front_right_delta
-        self.__kit.servo[int(self.steering_status.front_right_port)].actuation_range = self.steering_status.actuation_range
+        self.__kit.servo[int(self.servo_status.front_right_port)].angle = self.servo_status.front_right_delta
+        self.__kit.servo[int(self.servo_status.front_right_port)].actuation_range = self.servo_status.actuation_range
 
-        self.__kit.servo[int(self.steering_status.rear_left_port)].actuation_range = self.steering_status.actuation_range
+        self.__kit.servo[int(self.servo_status.rear_left_port)].actuation_range = self.servo_status.actuation_range
 
-        self.__kit.servo[int(self.steering_status.rear_right_port)].angle = self.steering_status.rear_right_delta
-        self.__kit.servo[int(self.steering_status.rear_right_port)].actuation_range = self.steering_status.actuation_range
+        self.__kit.servo[int(self.servo_status.rear_right_port)].angle = self.servo_status.rear_right_delta
+        self.__kit.servo[int(self.servo_status.rear_right_port)].actuation_range = self.servo_status.actuation_range

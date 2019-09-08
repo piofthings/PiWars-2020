@@ -1,0 +1,17 @@
+{
+  "actuation_range": 180,
+  "front_left_port": 14,
+  "front_right_port": 13,
+  "rear_left_port": 15,
+  "rear_right_port": 12,
+  "front_left_delta": 0.0,
+  "front_left_start": 90.0,
+  "front_right_delta": 0.0,
+  "front_right_start": 90.0,
+  "rear_right_start": 90.0,
+  "rear_right_delta": 0.0,
+  "rear_left_delta": 0.0,
+  "rear_left_start": 90.0,
+  "suspension_front_start": 0,
+  "suspension_rear_start": 0
+}
