@@ -24,6 +24,8 @@ class Steering():
     REAR_LEFT_POS = 3
     REAR_RIGHT_POS = 4
 
+    __max_actuation_angle = 180
+    __min_actuation_angle = 0
     """
     Preset Positions:
     SpotTurn:
@@ -179,14 +181,15 @@ class Steering():
         self.servo_status.save()
 
     def move_servo_to(self, index, value):
-        if(index == 1):
-            self.__kit.servo[int(self.servo_status.front_left_port)].angle = value
-        elif(index == 2):
-            self.__kit.servo[int(self.servo_status.front_right_port)].angle = value
-        elif(index == 3):
-            self.__kit.servo[int(self.servo_status.rear_left_port)].angle = value
-        elif(index == 4):
-            self.__kit.servo[int(self.servo_status.rear_right_port)].angle = value
+        if value <= self.__max_actuation_angle and value >= self.__min_actuation_angle:
+            if(index == 1):
+                self.__kit.servo[int(self.servo_status.front_left_port)].angle = value
+            elif(index == 2):
+                self.__kit.servo[int(self.servo_status.front_right_port)].angle = value
+            elif(index == 3):
+                self.__kit.servo[int(self.servo_status.rear_left_port)].angle = value
+            elif(index == 4):
+                self.__kit.servo[int(self.servo_status.rear_right_port)].angle = value
 
     def move_servo_by(self, index, value):
         if(index == 1):

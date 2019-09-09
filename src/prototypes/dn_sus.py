@@ -11,3 +11,4 @@ kit.servo[1].angle = min
 time.sleep(2)
 kit.servo[0].angle = max
 kit.servo[1].angle = max
+ 
